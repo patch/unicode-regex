@@ -1,56 +1,60 @@
-Popular programming languages, as ranked by the TIOBE Index:
+Popular programming languages, as ranked by the TIOBE Index.
 
-| Rank | Language | Rating |
-| ---: | --- | ---: |
-| 1 | Python | 19.23% |
-| 2 | C | 11.33% |
-| 3 | C++ | 8.87% |
-| 4 | Java | 8.41% |
-| 5 | C# | 3.79% |
-| 6 | JavaScript | 2.77% |
-| 7 | Visual Basic | 2.20% |
-| 8 | R | 2.06% |
-| 9 | SQL | 1.97% |
-| 10 | Rust | 1.44% |
-| 11 | Go | 1.39% |
-| 12 | PHP | 1.26% |
-| 13 | Fortran | 1.12% |
-| 14 | Swift | 1.03% |
-| 15 | Scratch | 0.97% |
-| 16 | COBOL | 0.89% |
-| 17 | Perl | 0.88% |
-| 18 | Julia | 0.88% |
-| 19 | Delphi/Object Pascal | 0.83% |
-| 20 | MATLAB | 0.83% |
-| 21 | Ada | 0.82% |
-| 22 | SAS | 0.76% |
-| 23 | Assembly language | 0.76% |
-| 24 | Classic Visual Basic | 0.70% |
-| 25 | Objective-C | 0.61% |
-| 26 | OCaml | 0.61% |
-| 27 | Dart | 0.60% |
-| 28 | Ruby | 0.53% |
-| 29 | VBScript | 0.52% |
-| 30 | PL/SQL | 0.51% |
-| 31 | Prolog | 0.49% |
-| 32 | Kotlin | 0.48% |
-| 33 | ABAP | 0.48% |
-| 34 | D | 0.46% |
-| 35 | Lua | 0.44% |
-| 36 | Lisp | 0.42% |
-| 37 | Caml | 0.42% |
-| 38 | TypeScript | 0.41% |
-| 39 | GML | 0.40% |
-| 40 | Scala | 0.37% |
-| 41 | Haskell | 0.33% |
-| 42 | PowerShell | 0.32% |
-| 43 | Transact-SQL | 0.30% |
-| 44 | Ladder Logic | 0.28% |
-| 45 | (Visual) FoxPro | 0.27% |
-| 46 | Zig | 0.27% |
-| 47 | X++ | 0.27% |
-| 48 | XSLT | 0.26% |
-| 49 | CFML | 0.25% |
-| 50 | Awk | 0.25% |
+Versions are the latest stable releases or published standards, checked 19 October 2026. Family-wide entries retain their scope; where no single version exists, this is stated explicitly.
+
+Included API covers bundled language, runtime and platform APIs. Add-on libraries are included only when named in official language/project documentation. None documented means no regex provider meeting this scope was identified; Unspecified means support varies across implementations.
+
+| Rank | Language | Rating | Version | Regex category | Regex provider | Notes |
+| ---: | --- | ---: | --- | --- | --- | --- |
+| 1 | Python | 19.23% | [3.15.0](https://www.python.org/downloads/release/python-3150/) | 1. Included API<br>2. Add-on library | 1. [re](https://docs.python.org/3.15/library/re.html)<br>2. [regex](https://pypi.org/project/regex/) | 2. Separately installed; explicitly identified in the official `re` documentation. |
+| 2 | C | 11.33% | [C23](https://www.iso.org/standard/82075.html) | Included API | [`<regex.h>`](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/regex.h.html) | POSIX platform API; absent from [ISO C](https://www.open-std.org/jtc1/sc22/wg14/www/docs/n3096.pdf#page=210). Engine depends on the platform library. |
+| 3 | C++ | 8.87% | [C++23](https://www.iso.org/standard/83626.html) | Included API | [std::regex](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/n4950.pdf) | Engine depends on the standard-library implementation. |
+| 4 | Java | 8.41% | [27](https://docs.oracle.com/en/java/javase/27/language/index.html) | Included API | [java.util.regex](https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/regex/package-summary.html) |  |
+| 5 | C# | 3.79% | [14](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history#c-version-14) | Included API | [.NET](https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expressions) | `System.Text.RegularExpressions` runtime library. |
+| 6 | JavaScript | 2.77% | [ECMAScript 2026](https://ecma-international.org/publications-and-standards/standards/ecma-262/) | Language syntax | [RegExp](https://262.ecma-international.org/17.0/#sec-regexp-regular-expression-objects) | Engine depends on the JavaScript runtime. |
+| 7 | Visual Basic | 2.20% | [17.13](https://learn.microsoft.com/en-us/dotnet/visual-basic/getting-started/whats-new) | Included API | [.NET](https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expressions) | Visual Basic .NET; `System.Text.RegularExpressions` runtime library. |
+| 8 | R | 2.06% | [4.6.1](https://www.r-project.org/) | Included API | 1. TRE<br>2. PCRE2 | 1. Default engine.<br>2. Selected with `perl = TRUE`; backend depends on the R build. [Base regex API](https://stat.ethz.ch/R-manual/R-patched/library/base/html/regex.html); [engine references](https://stat.ethz.ch/R-manual/R-patched/library/base/html/grep.html). |
+| 9 | SQL | 1.97% | [SQL:2023](https://www.iso.org/standard/76584.html) | Language syntax | [SQL regex predicates](https://www.postgresql.org/docs/current/functions-matching.html) | Standard includes `SIMILAR TO` and `LIKE_REGEX`; availability and engine depend on the DBMS. |
+| 10 | Rust | 1.44% | [1.99.1](https://blog.rust-lang.org/2026/10/15/Rust-1.99.1/) | Add-on library | [regex](https://docs.rs/regex/latest/regex/) | Explicit dependency in the [official Cargo documentation](https://doc.rust-lang.org/cargo/guide/dependencies.html). |
+| 11 | Go | 1.39% | [1.27.2](https://go.dev/doc/devel/release) | Included API | [regexp](https://pkg.go.dev/regexp) |  |
+| 12 | PHP | 1.26% | [8.5.11](https://www.php.net/releases/8_5_11.php) | Included API | 1. [PCRE2](https://www.php.net/manual/en/pcre.installation.php)<br>2. [Oniguruma](https://www.php.net/manual/en/mbstring.installation.php) | 1. Always-enabled `preg_*` API.<br>2. Optional `mbstring` extension (`mb_ereg*`); requires the Oniguruma library. |
+| 13 | Fortran | 1.12% | [2023](https://www.iso.org/standard/82170.html) | Add-on library | [fortran-pcre2](https://fortran-lang.org/packages/strings/) | PCRE2 binding explicitly listed in Fortran-lang’s library directory; separately installed. |
+| 14 | Swift | 1.03% | [6.4.1](https://forums.swift.org/t/announcing-swift-6-4-1/90029) | 1. Language syntax<br>2. Included API | 1. [Swift Regex](https://developer.apple.com/documentation/swift/regex)<br>2. [ICU](https://developer.apple.com/documentation/foundation/nsregularexpression) | 1. Regex literals and standard-library API.<br>2. Foundation’s `NSRegularExpression`. |
+| 15 | Scratch | 0.97% | [3.0](https://www.scratchfoundation.org/announcements/ngp) | None documented | — | No regex block or bundled regex extension in the official [block implementations](https://github.com/scratchfoundation/scratch-editor/blob/develop/packages/scratch-vm/src/blocks/scratch3_operators.js) or [extension list](https://github.com/scratchfoundation/scratch-editor/blob/develop/packages/scratch-vm/src/extension-support/extension-manager.js). |
+| 16 | COBOL | 0.89% | [2023](https://www.iso.org/standard/74527.html) | Unspecified | Unspecified | No common provider across implementations. Vendor runtimes can include regex APIs, e.g. ACUCOBOL-GT’s [C$REGEXP](https://docs.rocketsoftware.com/bundle/acuextendsuite_ug_1100/page/topics/c_regexp.html). |
+| 17 | Perl | 0.88% | [5.44.0](https://www.nntp.perl.org/group/perl.perl5.porters/2026/07/msg271063.html) | Language syntax | [Perl](https://perldoc.perl.org/perlre) |  |
+| 18 | Julia | 0.88% | [1.13.2](https://www.julialang.org/downloads/manual-downloads/) | Included API | [PCRE2](https://docs.julialang.org/en/v1/manual/strings/#man-regex-literals) | Base `Regex`; [r"…" notation](https://docs.julialang.org/en/v1/base/strings/#Base.@r_str) is supplied by a string macro. |
+| 19 | Delphi/Object Pascal | 0.83% | 1. [Delphi 13.2](https://www.embarcadero.com/press-releases/rad-studio-13-2-released)<br>2. [Free Pascal 3.2.2](https://www.freepascal.org/) | Included API | 1. [PCRE](https://docwiki.embarcadero.com/Libraries/Florence/en/System.RegularExpressionsCore.TPerlRegEx)<br>2. [TRegExpr](https://gitlab.com/freepascal.org/fpc/source/-/blob/release_3_2_2/packages/regexpr/src/regexpr.pas) | Object Pascal has no single version; named releases shown.<br>1. Delphi RTL (`TRegEx`/`TPerlRegEx`).<br>2. Free Pascal’s bundled `regexpr` package. |
+| 20 | MATLAB | 0.83% | [R2026b](https://www.mathworks.com/company/newsroom/mathworks-introduces-release-2026b-of-matlab-and-simulink.html) | Included API | [regexp](https://www.mathworks.com/help/matlab/ref/regexp.html) | Underlying engine is not named in the API reference. |
+| 21 | Ada | 0.82% | [Ada 2022](https://www.iso.org/standard/83621.html) | Unspecified | Unspecified | ISO Ada defines no regex API; runtime libraries vary. GNAT includes [GNAT.Regexp and GNAT.Regpat](https://gcc.gnu.org/onlinedocs/gnat_rm/The-GNAT-Library.html). |
+| 22 | SAS | 0.76% | Unversioned | Included API | [PRX functions and CALL routines](https://documentation.sas.com/api/docsets/lefunctionsref/9.4/content/lefunctionsref.pdf) | Language shared by SAS 9.4 and Viya, which have separate product releases. |
+| 23 | Assembly language | 0.76% | No single version | Unspecified | Unspecified | Family of architecture-specific languages; no shared runtime or regex provider. Availability depends on assembler, target and linked libraries. [Assembler scope](https://sourceware.org/binutils/docs/as/Manual.html). |
+| 24 | Classic Visual Basic | 0.70% | [6.0 SP6](https://learn.microsoft.com/en-us/previous-versions/visualstudio/visual-basic-6/visual-basic-6-support-policy) | Included API | [VBScript RegExp](https://learn.microsoft.com/en-us/previous-versions/iis/6.0-sdk/ms526061(v=vs.90)) | Windows COM component, used from Visual Basic in Microsoft’s example; availability depends on the optional VBScript Windows feature. Separate from the VB6 runtime. |
+| 25 | Objective-C | 0.61% | Unversioned | Included API | [NSRegularExpression](https://developer.apple.com/documentation/foundation/nsregularexpression?language=objc) | Apple Foundation API using ICU; availability depends on the platform’s Foundation implementation. Language evolves with the toolchain. |
+| 26 | OCaml | 0.61% | [5.5.1](https://discuss.ocaml.org/t/ocaml-5-5-1-released/18510) | Included API | [Str](https://ocaml.org/manual/5.5/libstr.html) | Bundled library; programs must link it explicitly. |
+| 27 | Dart | 0.60% | [3.13.5](https://api.dart.dev/dart-core/RegExp-class.html) | Included API | [RegExp](https://api.dart.dev/dart-core/RegExp-class.html) | ECMAScript semantics; implementation depends on target (Dart runtime or browser). |
+| 28 | Ruby | 0.53% | [4.0.7](https://www.ruby-lang.org/en/downloads/releases/) | Language syntax | [Regexp](https://docs.ruby-lang.org/en/4.0/Regexp.html) | Engine depends on the Ruby implementation. |
+| 29 | VBScript | 0.52% | [5.8](https://learn.microsoft.com/en-us/security-updates/securitybulletins/2015/ms15-066) | Included API | [RegExp](https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/scripting-articles/6wzad2b2(v=vs.84)) | Windows scripting engine; availability depends on the [optional VBScript Windows feature](https://learn.microsoft.com/en-us/windows/whats-new/deprecated-features-resources#vbscript). |
+| 30 | PL/SQL | 0.51% | [26ai](https://docs.oracle.com/en/database/oracle/oracle-database/26/lnpls/) | Included API | [Oracle REGEXP_* API](https://docs.oracle.com/en/database/oracle/oracle-database/26/sqlrf/Oracle-Regular-Expression-Support.html) | Version follows Oracle AI Database; SQL regex functions and `REGEXP_LIKE` are usable in PL/SQL. |
+| 31 | Prolog | 0.49% | No single version | Unspecified | Unspecified | Implementation-specific libraries; no family-wide provider. For example, SWI-Prolog documents [library(pcre)](https://www.swi-prolog.org/pldoc/man?section=pcre). |
+| 32 | Kotlin | 0.48% | [2.4.21](https://kotlinlang.org/docs/releases.html) | Included API | [kotlin.text.Regex](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.text/-regex/) | Implementation and syntax depend on the target platform. |
+| 33 | ABAP | 0.48% | No single version | Language syntax | [ABAP regex facility](https://help.sap.com/docs/abap-cloud/abap-keyword/regular-expression) | `FIND PCRE`/`REPLACE PCRE`, built-in functions and system classes. Releases depend on ABAP Platform or ABAP Cloud deployment. |
+| 34 | D | 0.46% | [2.113.0](https://dlang.org/changelog/2.113.0.html) | Included API | [std.regex](https://dlang.org/phobos/std_regex.html) | Runtime and compile-time regex construction use the Phobos library. |
+| 35 | Lua | 0.44% | [5.5.1](https://www.lua.org/download.html) | None documented | — | The included string library uses [Lua patterns](https://www.lua.org/manual/5.5/manual.html#6.5.1), a separate pattern language; no qualifying regex add-on identified in the language documentation. |
+| 36 | Lisp | 0.42% | No single version | Unspecified | Unspecified | [Lisp family](https://docs.racket-lang.org/guide/dialects.html); versions, syntax and regex providers depend on the dialect and implementation. |
+| 37 | Caml | 0.42% | No single version | Unspecified | Unspecified | Caml family, including [Caml Light](https://caml.inria.fr/caml-light/) and OCaml (listed separately); releases and bundled libraries depend on the implementation. |
+| 38 | TypeScript | 0.41% | [7.0.2](https://github.com/microsoft/TypeScript/releases/tag/v7.0.2) | Language syntax | [ECMAScript RegExp](https://262.ecma-international.org/17.0/#sec-regexp-regular-expression-objects) | JavaScript regex syntax; engine and available capabilities depend on the execution runtime. |
+| 39 | GML | 0.40% | Unversioned | None documented | — | Language follows GameMaker releases. No regex API identified in the official [string function reference](https://manual.gamemaker.io/monthly/en/GameMaker_Language/GML_Reference/Strings/Strings.htm). |
+| 40 | Scala | 0.37% | [3.10.0](https://www.scala-lang.org/download/3.10.0.html) | Included API | [scala.util.matching.Regex](https://www.scala-lang.org/api/3.x/scala/util/matching/Regex.html) | JVM library delegates to `java.util.regex`; other targets can use different implementations. |
+| 41 | Haskell | 0.33% | [2010](https://www.haskell.org/onlinereport/haskell2010/) | None documented | — | The language report defines no regex API; no add-on meeting the official-documentation inclusion rule was identified. |
+| 42 | PowerShell | 0.32% | [7.6.6](https://learn.microsoft.com/en-us/powershell/scripting/whats-new/what-s-new-in-powershell-76) | Language syntax | [.NET](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_regular_expressions?view=powershell-7.6) | `-match`, `-replace`, `-split` and `switch -regex`; also available through cmdlets and the .NET API. |
+| 43 | Transact-SQL | 0.30% | [SQL Server 2025 (17.x)](https://learn.microsoft.com/en-us/sql/t-sql/functions/regexp-like-transact-sql) | Included API | [RE2](https://learn.microsoft.com/en-us/sql/relational-databases/regular-expressions/overview?view=sql-server-ver17) | `REGEXP_*` functions; `REGEXP_LIKE` requires database compatibility level 170 or above. Azure service availability follows its update policy. |
+| 44 | Ladder Logic | 0.28% | [IEC 61131-3:2025](https://webstore.iec.ch/en/publication/68533) | Unspecified | Unspecified | Ladder Diagram standard shown; PLC vendors have separate releases and libraries. No single regex provider across the family. |
+| 45 | (Visual) FoxPro | 0.27% | No single version | None documented | — | FoxPro and Visual FoxPro have separate version lines; [Visual FoxPro 9.0 SP2](https://learn.microsoft.com/en-us/previous-versions/visualstudio/foxpro/mt490117(v=msdn.10)) is the final Visual FoxPro release. No qualifying regex provider identified in the official language reference. |
+| 46 | Zig | 0.27% | [0.17.0](https://ziglang.org/download/) | None documented | — | No regex API documented in the [standard library](https://ziglang.org/documentation/0.17.0/std/); no qualifying add-on identified in the language documentation. |
+| 47 | X++ | 0.27% | Unversioned | Included API | [match](https://learn.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/dev-ref/xpp-string-run-time-functions#match) | Built-in runtime pattern matcher with its own syntax; engine is not named. Language releases follow Dynamics 365 Finance and Operations. |
+| 48 | XSLT | 0.26% | [3.0](https://www.w3.org/TR/xslt-30/) | Language syntax | [XSLT/XPath regex facility](https://www.w3.org/TR/xslt-30/#analyze-string) | `xsl:analyze-string` and XPath regex functions; engine depends on the processor. |
+| 49 | CFML | 0.25% | No single version | Included API | [CFML regex functions](https://docs.lucee.org/categories/regex.html) | Adobe ColdFusion and Lucee have separate releases. Included engines and defaults depend on implementation/configuration; Lucee documents Apache ORO and Java options. |
+| 50 | Awk | 0.25% | [POSIX.1-2024](https://pubs.opengroup.org/onlinepubs/9799919799/utilities/awk.html) | Language syntax | [awk regex facility](https://pubs.opengroup.org/onlinepubs/9799919799/utilities/awk.html) | Language standard shown; interpreter releases and engine implementations vary. |
 
 Source: [TIOBE Index for October 2026](https://www.tiobe.com/tiobe-index/), TIOBE Software BV (www.tiobe.com)
