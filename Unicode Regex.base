@@ -1,0 +1,156 @@
+filters:
+  and:
+    - file.ext == "md"
+formulas:
+  root: file("Unicode Regex.base").folder
+  language: if(note.language, link(formula.root + "/Languages/" + note.language + ".md", file(formula.root + "/Languages/" + note.language + ".md").properties.name))
+  provider: if(note.provider, link(formula.root + "/Providers/" + note.provider + ".md", file(formula.root + "/Providers/" + note.provider + ".md").properties.name))
+  support_status: if(note.support_status, note.support_status, if(note.providers && note.providers.length > 0, "Documented", ""))
+  providers: if(note.providers, note.providers.map(link(formula.root + "/Providers/" + value + ".md", file(formula.root + "/Providers/" + value + ".md").properties.name)), [])
+properties:
+  file.name:
+    displayName: ID
+  note.name:
+    displayName: Name
+  note.language:
+    displayName: Language ID
+  note.provider:
+    displayName: Provider ID
+  formula.language:
+    displayName: Language
+  formula.provider:
+    displayName: Provider
+  note.version:
+    displayName: Version
+  formula.support_status:
+    displayName: Regex support
+  formula.providers:
+    displayName: Regex providers
+  note.tiobe_rank:
+    displayName: TIOBE rank
+  note.tiobe_rating:
+    displayName: TIOBE rating (%)
+  note.version_source:
+    displayName: Version source
+  note.provider_type:
+    displayName: Provider type
+  note.documentation:
+    displayName: Documentation
+  note.rank:
+    displayName: Rank
+  note.score:
+    displayName: Score (rating points)
+  note.ranking_language_syntax:
+    displayName: Language syntax
+  note.ranking_included_api:
+    displayName: Included API
+  note.ranking_add_on_library:
+    displayName: Add-on library
+  note.category:
+    displayName: Category
+  note.api:
+    displayName: API
+  note.implementation:
+    displayName: Implementation
+  note.targets:
+    displayName: Targets
+  note.sources:
+    displayName: Sources
+  note.notes:
+    displayName: Notes
+views:
+  - type: table
+    name: Languages
+    filters:
+      and:
+        - record_type == "language"
+        - file.folder == formula.root + "/Languages"
+    order:
+      - name
+      - formula.providers
+      - formula.support_status
+      - tiobe_rank
+      - tiobe_rating
+      - version
+      - version_source
+      - notes
+      - sources
+      - file.name
+    sort:
+      - property: tiobe_rank
+        direction: ASC
+    columnSize:
+      note.name: 140
+      note.version: 160
+      formula.providers: 200
+      note.notes: 480
+    rowHeight: tall
+  - type: table
+    name: Providers
+    filters:
+      and:
+        - record_type == "provider"
+        - file.folder == formula.root + "/Providers"
+    order:
+      - name
+      - provider_type
+      - rank
+      - score
+      - documentation
+      - file.name
+    sort:
+      - property: rank
+        direction: ASC
+      - property: name
+        direction: ASC
+    columnSize:
+      note.score: 63
+  - type: table
+    name: Provider comparison
+    filters:
+      and:
+        - record_type == "provider"
+        - file.folder == formula.root + "/Providers"
+    order:
+      - name
+      - provider_type
+      - rank
+      - score
+      - ranking_language_syntax
+      - ranking_included_api
+      - ranking_add_on_library
+      - file.name
+    sort:
+      - property: rank
+        direction: ASC
+      - property: name
+        direction: ASC
+  - type: table
+    name: Support
+    filters:
+      and:
+        - record_type == "support"
+        - file.folder == formula.root + "/Support"
+    order:
+      - formula.language
+      - formula.provider
+      - category
+      - notes
+      - api
+      - implementation
+      - targets
+      - sources
+      - language
+      - provider
+      - file.name
+    sort:
+      - property: language
+        direction: ASC
+      - property: provider
+        direction: ASC
+    columnSize:
+      formula.language: 140
+      formula.provider: 190
+      note.category: 140
+      note.notes: 480
+    rowHeight: tall
