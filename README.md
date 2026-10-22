@@ -6,6 +6,7 @@ Contents:
 
 - [Structured data and Unicode research](Data.md)
 - [Unicode research plan](Research%20Plan.md)
+- [UTS #18 research reference](UTS18.md)
 - [Programming Languages](Programming%20Languages.md)
 - [Regex Providers](Regex%20Engines.md)
 

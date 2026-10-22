@@ -33,9 +33,17 @@ Definitions and method: [Data](../Data.md#unicode-feature-research). Results: Un
 
 Java expansion: java.util.regex `27.0.1`, Unicode `17.0.0`, checked `2026-10-22`; 36 assessments and 60 property records. Java claims Level 1 plus RL2.1/RL2.2 without naming a UTS revision. Explicit lists and rule-derived Java classification selectors remain distinguishable in the inventory.
 
-Repeatability checked `2026-10-22` against IUC38's technical questions. Category meanings, syntax gaps and contextual script replacement are explicit; the UTS #18 feature structure and existing record fields/views were retained.
+Parallel expansion checked `2026-10-22`, reviewed and integrated in rank order:
 
-Next provider by existing rank: .NET.
+- .NET `10.0.13`: 36 assessments, two property records containing 37 category values and 105 block ranges / 108 spellings. Repeatability audit complete: UTF-16 versus host scalar/grapheme facilities, category/block syntax and meanings, a qualified block-based contextual replacement, shorthand/boundary defaults and stable LF line rules are explicit. Modern classification Unicode version, automatic equivalence/full folding and named-sequence host lookup remain undocumented; .NET 11 features are excluded.
+- PCRE2 `10.49`, Unicode `17.0.0`: 36 assessments, 25 property records. Repeatability audit complete: UTF/UCP controls, code points versus extended/legacy graphemes, syntax/negation, contextual script replacement, numeric/width/binary/script/block distinctions, shorthands and all Unicode linebreaks are explicit. Current complete binary/script inventories remain documentation gaps; 162 archived script names are dated positive evidence. Unresolved source spelling, whitespace-definition and segmentation-revision questions remain visible.
+- ECMAScript RegExp `2026` (ECMA-262 edition 17): 36 assessments, 63 property records; Unicode `18.0.0` is the latest required standard target at review, with runtime data/adoption unsurveyed. Repeatability audit complete: u/v code-point and string-set distinctions, exact property/value aliases, contextual script replacement, shorthand/boundary restrictions, line terminators and host workflows are explicit. String/emoji properties do not establish arbitrary grapheme matching; host casefold preprocessing and named-sequence lookup remain undocumented.
+
+Total: six providers, 36 features (33 regex capabilities and three host workflows), 216 assessments and 247 property records. Each repeatability audit checked actual records against IUC38's technical questions; completed audits are documentation assessments, not formal conformance findings. Existing schema and views were sufficient; qualifications remain visible through their evidence fields. Reusable lessons are incorporated in [Research Plan](../Research%20Plan.md).
+
+Independent batch review: corrected the ECMAScript RL1.6 qualification, PCRE2 compile-option layers and matching-versus-replacement casing evidence. PCRE2's unresolved whitespace-formula discrepancy covers both NEL and U+180E. ECMAScript property/value aliases and .NET category/block inventories were checked against official tables; capability statuses and counts were retained. Shared requirement reminders are preserved in [UTS18.md](../UTS18.md).
+
+Next shortlisted provider by existing rank: Perl.
 
 ## Future expansion
 
