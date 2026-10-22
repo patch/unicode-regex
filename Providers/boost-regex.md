@@ -9,4 +9,9 @@ ranking_language_syntax:
   - "ABAP (obsolete POSIX facility)"
 ranking_included_api: []
 ranking_add_on_library: []
+additional_libraries:
+  - "cpp-boost-regex"
+library_notes: "Native C++ add-on included; no maintained stable cross-language wrapper verified."
+library_sources:
+  - "https://github.com/boostorg/regex"
 ---

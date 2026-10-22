@@ -10,4 +10,7 @@ ranking_language_syntax: []
 ranking_included_api:
   - "PHP"
 ranking_add_on_library: []
+library_notes: "Excluded from the additional-library survey because upstream ended on 2025-04-24; maintained wrappers do not change that scope decision."
+library_sources:
+  - "https://github.com/kkos/oniguruma"
 ---

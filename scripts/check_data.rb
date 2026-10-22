@@ -3,21 +3,26 @@
 require 'yaml'
 require 'bigdecimal'
 require 'uri'
+require 'date'
 
 SCHEMAS = {
   'Languages' => ['language', %w[record_type name version tiobe_rank tiobe_rating],
                   %w[version_source support_status providers notes sources]],
   'Providers' => ['provider', %w[record_type name provider_type documentation rank score
-                               ranking_language_syntax ranking_included_api ranking_add_on_library], %w[iuc38]],
+                               ranking_language_syntax ranking_included_api ranking_add_on_library],
+                  %w[iuc38 additional_libraries library_notes library_sources]],
   'Support' => ['support', %w[record_type language provider category sources],
-                %w[api implementation targets notes]]
+                %w[api implementation targets notes]],
+  'Libraries' => ['library', %w[record_type language provider name version release_date sources],
+                  %w[maintenance_date notes]]
 }.freeze
 CATEGORIES = {
   'Language syntax' => 'ranking_language_syntax',
   'Included API' => 'ranking_included_api',
   'Add-on library' => 'ranking_add_on_library'
 }.freeze
-LISTS = %w[providers sources targets ranking_language_syntax ranking_included_api ranking_add_on_library].freeze
+LISTS = %w[providers sources targets ranking_language_syntax ranking_included_api ranking_add_on_library
+           additional_libraries library_sources].freeze
 NUMBERS = %w[tiobe_rank tiobe_rating rank score].freeze
 STATUSES = ['None documented', 'Unspecified'].freeze
 
@@ -39,7 +44,7 @@ def read_yaml(text, path)
     Array(node.children).each { |child| visit.call(child) }
   end
   visit.call(tree) if tree
-  YAML.safe_load(text, aliases: false)
+  YAML.safe_load(text, permitted_classes: [Date], aliases: false)
 rescue Psych::Exception => e
   check(false, "#{path}: #{e.message.lines.first.strip}")
   nil
@@ -78,6 +83,8 @@ SCHEMAS.each do |folder, (type, required, optional)|
                 value.is_a?(Numeric) && value.finite? && value >= 0
               elsif key == 'iuc38'
                 value == true || value == false
+              elsif %w[release_date maintenance_date].include?(key)
+                value.is_a?(Date) || (value.is_a?(String) && value.match?(/\A\d{4}-\d{2}-\d{2}\z/))
               else
                 value.is_a?(String) && !value.strip.empty? && !value.include?("\n")
               end
@@ -86,7 +93,7 @@ SCHEMAS.each do |folder, (type, required, optional)|
     %w[rank tiobe_rank].each do |key|
       check(data[key].is_a?(Integer) && data[key] > 0, "#{relative}: #{key} must be a positive integer") if data.key?(key)
     end
-    (Array(data['sources']) + [data['version_source'], data['documentation']].compact).each do |url|
+    (Array(data['sources']) + Array(data['library_sources']) + [data['version_source'], data['documentation']].compact).each do |url|
       uri = URI.parse(url.to_s) rescue nil
       check(uri.is_a?(URI::HTTP) && uri.host && !uri.host.empty?, "#{relative}: invalid source URL #{url.inspect}")
     end
@@ -102,7 +109,7 @@ Dir[File.join(root, '*.md')].each do |path|
 end
 finish_phase
 
-languages, providers, support = records.values_at('Languages', 'Providers', 'Support')
+languages, providers, support, libraries = records.values_at('Languages', 'Providers', 'Support', 'Libraries')
 [languages, providers].each do |group|
   names = group.values.map { |record| record['name'] }
   check(names.uniq == names, 'Language and provider names must be unique within their record type')
@@ -126,6 +133,49 @@ support.each do |id, mapping|
   facts << fact
 end
 finish_phase
+
+# Supplemental libraries never enter the Support relationships used below for ranking.
+checked_text = File.read(File.join(root, 'Data.md'))[/Additional libraries checked: `(\d{4}-\d{2}-\d{2})`/, 1]
+checked = Date.iso8601(checked_text) rescue nil
+check(checked, 'Data.md: missing or invalid additional-library check date')
+library_pairs = []
+libraries.each do |id, library|
+  language, provider = library.values_at('language', 'provider')
+  check(languages.key?(language), "Libraries/#{id}: unknown language #{language}")
+  check(providers.key?(provider), "Libraries/#{id}: unknown provider #{provider}")
+  pair = [language, provider]
+  check(!library_pairs.include?(pair), "Libraries/#{id}: duplicate language/provider pair")
+  library_pairs << pair
+  check(id == pair.join('-'), "Libraries/#{id}: filename does not match its references")
+  check(!library['sources'].empty?, "Libraries/#{id}: sources cannot be empty")
+  documented = support.values.any? do |mapping|
+    mapping.values_at('language', 'provider') == pair && mapping['category'] == 'Add-on library'
+  end
+  check(!documented, "Libraries/#{id}: already represented by a language-documented add-on in Support")
+  dates = %w[release_date maintenance_date].to_h do |property|
+    value = library[property]
+    date = value.is_a?(Date) ? value : (Date.iso8601(value) if value)
+    check(date, "Libraries/#{id}: invalid #{property}") if value
+    [property, date]
+  rescue Date::Error
+    check(false, "Libraries/#{id}: invalid #{property}")
+    [property, nil]
+  end
+  released = dates['release_date']
+  maintained = dates['maintenance_date'] || released
+  if checked && released && maintained
+    check(released <= maintained && maintained <= checked, "Libraries/#{id}: inconsistent release/maintenance dates")
+    check(maintained >= (checked << 24), "Libraries/#{id}: maintenance evidence is older than two years at the check date")
+  end
+  check(!library['version'].match?(/(?:alpha|beta|preview|devel|snapshot|(?:\A|[.\-])rc\d*)/i), "Libraries/#{id}: prerelease version")
+end
+finish_phase
+
+providers.each do |id, provider|
+  expected = libraries.keys.select { |library| libraries[library]['provider'] == id }
+  expected.sort_by! { |library| [languages[libraries[library]['language']]['tiobe_rank'], libraries[library]['name']] }
+  check(Array(provider['additional_libraries']) == expected, "Providers/#{id}: additional-library links differ from Libraries or their TIOBE order")
+end
 
 languages.each do |id, language|
   mapped = support.values.select { |mapping| mapping['language'] == id }.map { |mapping| mapping['provider'] }.uniq
@@ -181,4 +231,4 @@ else
   check(false, 'Missing Unicode Regex.base')
 end
 finish_phase
-puts "OK: #{languages.size} languages, #{providers.size} providers, #{support.size} support mappings; references, properties, display lists and rankings agree."
+puts "OK: #{languages.size} languages, #{providers.size} providers, #{support.size} support mappings, #{libraries.size} additional libraries; references, properties, display lists and rankings agree."

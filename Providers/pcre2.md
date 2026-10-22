@@ -13,4 +13,20 @@ ranking_included_api:
   - "Julia"
 ranking_add_on_library:
   - "Fortran"
+additional_libraries:
+  - "c-pcre2"
+  - "cpp-pcre2"
+  - "java-pcre2"
+  - "csharp-pcre2"
+  - "javascript-pcre2"
+  - "rust-pcre2"
+  - "ocaml-pcre2"
+  - "lua-pcre2"
+  - "typescript-pcre2"
+  - "haskell-pcre2"
+library_notes: "Python pcre2 is excluded because PyPI labels it Beta. Go candidates with development-only or unstable versions are excluded. Fortran remains in the language-docs column."
+library_sources:
+  - "https://pypi.org/project/pcre2/0.7.1/"
+  - "https://pkg.go.dev/github.com/GRbit/go-pcre/v2"
+  - "https://pkg.go.dev/github.com/sg4i/gopcre2"
 ---

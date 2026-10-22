@@ -10,4 +10,7 @@ ranking_language_syntax:
   - "Ruby (CRuby)"
 ranking_included_api: []
 ranking_add_on_library: []
+library_notes: "Excluded from the additional-library survey: no recent maintained standalone release verified. Existing Ruby support remains recorded."
+library_sources:
+  - "https://github.com/k-takata/Onigmo"
 ---

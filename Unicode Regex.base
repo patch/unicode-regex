@@ -7,6 +7,8 @@ formulas:
   provider: if(note.provider, link(formula.root + "/Providers/" + note.provider + ".md", file(formula.root + "/Providers/" + note.provider + ".md").properties.name))
   support_status: if(note.support_status, note.support_status, if(note.providers && note.providers.length > 0, "Documented", ""))
   providers: if(note.providers, note.providers.map(link(formula.root + "/Providers/" + value + ".md", file(formula.root + "/Providers/" + value + ".md").properties.name)), [])
+  additional_libraries: if(note.additional_libraries, note.additional_libraries.map(link(formula.root + "/Libraries/" + value + ".md", file(formula.root + "/Languages/" + file(formula.root + "/Libraries/" + value + ".md").properties.language + ".md").properties.name + " (" + file(formula.root + "/Libraries/" + value + ".md").properties.name + ")")), [])
+  library_maintenance: if(note.maintenance_date, note.maintenance_date, note.release_date)
 properties:
   file.name:
     displayName: ID
@@ -47,7 +49,19 @@ properties:
   note.ranking_included_api:
     displayName: Included API
   note.ranking_add_on_library:
-    displayName: Add-on library
+    displayName: Add-on library (language docs)
+  formula.additional_libraries:
+    displayName: Additional add-on libraries
+  note.additional_libraries:
+    displayName: Additional library IDs
+  note.library_notes:
+    displayName: Library survey notes
+  note.library_sources:
+    displayName: Library survey sources
+  note.release_date:
+    displayName: Release date
+  formula.library_maintenance:
+    displayName: Maintenance evidence date
   note.category:
     displayName: Category
   note.api:
@@ -123,12 +137,48 @@ views:
       - ranking_language_syntax
       - ranking_included_api
       - ranking_add_on_library
+      - formula.additional_libraries
+      - library_notes
+      - library_sources
       - file.name
     sort:
       - property: rank
         direction: ASC
       - property: name
         direction: ASC
+    columnSize:
+      formula.additional_libraries: 400
+      note.library_notes: 480
+    rowHeight: tall
+  - type: table
+    name: Additional libraries
+    filters:
+      and:
+        - record_type == "library"
+        - file.folder == formula.root + "/Libraries"
+    order:
+      - formula.provider
+      - formula.language
+      - name
+      - version
+      - release_date
+      - formula.library_maintenance
+      - notes
+      - sources
+      - language
+      - provider
+      - file.name
+    sort:
+      - property: provider
+        direction: ASC
+      - property: language
+        direction: ASC
+    columnSize:
+      formula.provider: 190
+      formula.language: 140
+      note.name: 160
+      note.notes: 480
+    rowHeight: tall
   - type: table
     name: Support
     filters:

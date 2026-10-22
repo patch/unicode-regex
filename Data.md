@@ -1,10 +1,11 @@
 # Structured data
 
-50 languages, 30 providers and 48 support mappings. Open [Unicode Regex.base](Unicode%20Regex.base) for Languages, Providers, Provider comparison and Support views.
+50 languages, 30 providers, 48 support mappings and 31 additional library relationships. Open [Unicode Regex.base](Unicode%20Regex.base) for Languages, Providers, Provider comparison, Support and Additional libraries views.
 
 - `Languages/<id>.md`: `record_type: language`, `name`, quoted `version`, `tiobe_rank`, `tiobe_rating`; optional `version_source`, `support_status`, `providers` list, `notes` and `sources` list. Named releases without a single version source use `sources`.
-- `Providers/<id>.md`: `record_type: provider`, `name`, `provider_type`, `documentation`, `rank`, `score`, and lists `ranking_language_syntax`, `ranking_included_api`, `ranking_add_on_library`; optional boolean `iuc38`.
+- `Providers/<id>.md`: `record_type: provider`, `name`, `provider_type`, `documentation`, `rank`, `score`, and lists `ranking_language_syntax`, `ranking_included_api`, `ranking_add_on_library`; optional boolean `iuc38`, `additional_libraries` list of Library IDs, `library_notes` and `library_sources` list.
 - `Support/<language>-<provider>.md`: `record_type: support`, `language`, `provider`, `category`, `sources`; optional `api`, `implementation`, `targets` list and `notes`. Append a target to the filename if a pair needs separate records.
+- `Libraries/<language>-<provider>.md`: `record_type: library`, `language`, `provider`, `name` (package/library), quoted `version`, ISO `release_date`, `sources`; optional ISO `maintenance_date` and `notes`. Dates may be quoted or saved as native YAML dates by Obsidian. One representative qualifying add-on per language/provider pair.
 
 Language and provider filenames supply stable IDs; change `name` for display-name edits. Renaming an ID requires updating every reference. Support references use those IDs; Bases supplies clickable links. Read relationships from properties, not by splitting filenames. Keep properties flat, one per line; use lists for sources and targets. Store qualifications as plain text in `notes`, displayed in the corresponding view, with URLs in source properties. Record bodies are empty. Missing targets or implementation means no restriction was recorded.
 
@@ -30,6 +31,12 @@ Provider order uses total score descending, then rating subtotals for Language s
 
 Provider ranks, scores and category lists are stored snapshots. Bases does not recalculate them automatically; keep them consistent when mappings or ratings change. Provider comparison displays these fields, while Support displays the individual relationships.
 
-Run `ruby scripts/check_data.rb` after editing records or views. It checks required properties, types, IDs, references, duplicate relationships, display lists, category membership and order, scores and competition ranks. The check is read-only; incomplete records fail validation.
+Additional libraries checked: `2026-10-22`. Survey scope: maintained, reusable implementations of ICU, PCRE2, RE2, Rust regex, Boost.Regex and TRE, limited to the existing language/provider IDs. Oniguruma and legacy PCRE are excluded because upstream maintenance ended; Onigmo has no recent maintained standalone release verified. Runtime-specific providers such as Python re are outside this survey. Ports and independent reimplementations are excluded entirely; compiling the original implementation to WebAssembly does not create a new provider.
+
+Library inclusion requires a published non-prerelease version, no explicit alpha/beta/experimental/work-in-progress designation, verified regex operations, and release or substantive maintenance evidence within the preceding 24 months. Published 0.x release series can qualify; this is not a promise of an immutable API. Dependency compatibility revisions count as maintenance; recent stars or automated housekeeping alone do not. Older source releases retain their dates and visible qualifications. Both provider and binding must remain maintained. Native installable libraries also qualify; generic FFI or JVM/.NET interoperability alone does not establish additional language bindings. Absence means not verified, not unavailable.
+
+Support's `Add-on library` category remains the formal-language-documentation dataset. Libraries supplies additional package-documented availability without changing Support, Language `providers`, or any ranking input. Package registries and library documentation do not by themselves satisfy the formal-language-documentation rule. Provider `additional_libraries` is a derived list of Library IDs in TIOBE language order; comparison cells link to the evidence records. Keep qualifications and exclusions visible in `notes` / `library_notes`, with URLs in the corresponding source lists.
+
+Run `ruby scripts/check_data.rb` after editing records or views. It checks required properties, types, IDs, references, duplicate relationships, display lists, library release/maintenance dates, category membership and order, scores and competition ranks. The check is read-only; incomplete records fail validation.
 
 Ranking source: [TIOBE Index for October 2026](https://www.tiobe.com/tiobe-index/), TIOBE Software BV (www.tiobe.com). Version and support sources are linked in the records.
