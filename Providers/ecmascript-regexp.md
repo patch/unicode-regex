@@ -2,6 +2,7 @@
 record_type: provider
 name: ECMAScript RegExp
 provider_type: Standard family
+iuc38: true
 documentation: https://262.ecma-international.org/17.0/#sec-regexp-regular-expression-objects
 rank: 8
 score: 4.26

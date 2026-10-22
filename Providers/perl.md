@@ -2,6 +2,7 @@
 record_type: provider
 name: Perl
 provider_type: Engine
+iuc38: true
 documentation: https://perldoc.perl.org/perlre
 rank: 12
 score: 1.64

@@ -2,6 +2,7 @@
 record_type: provider
 name: ICU
 provider_type: Engine
+iuc38: true
 documentation: https://developer.apple.com/documentation/foundation/nsregularexpression
 rank: 13
 score: 1.64

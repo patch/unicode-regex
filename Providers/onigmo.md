@@ -2,6 +2,7 @@
 record_type: provider
 name: Onigmo
 provider_type: Engine
+iuc38: true
 documentation: https://docs.ruby-lang.org/en/4.0/LEGAL.html
 rank: 22
 score: 0.53

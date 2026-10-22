@@ -8,7 +8,7 @@ SCHEMAS = {
   'Languages' => ['language', %w[record_type name version tiobe_rank tiobe_rating],
                   %w[version_source support_status providers notes sources]],
   'Providers' => ['provider', %w[record_type name provider_type documentation rank score
-                               ranking_language_syntax ranking_included_api ranking_add_on_library], []],
+                               ranking_language_syntax ranking_included_api ranking_add_on_library], %w[iuc38]],
   'Support' => ['support', %w[record_type language provider category sources],
                 %w[api implementation targets notes]]
 }.freeze
@@ -76,6 +76,8 @@ SCHEMAS.each do |folder, (type, required, optional)|
                 value.is_a?(Array) && value.all? { |item| item.is_a?(String) && !item.strip.empty? } && value.uniq == value
               elsif NUMBERS.include?(key)
                 value.is_a?(Numeric) && value.finite? && value >= 0
+              elsif key == 'iuc38'
+                value == true || value == false
               else
                 value.is_a?(String) && !value.strip.empty? && !value.include?("\n")
               end

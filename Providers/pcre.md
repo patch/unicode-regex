@@ -2,6 +2,7 @@
 record_type: provider
 name: PCRE
 provider_type: Engine
+iuc38: true
 documentation: https://docwiki.embarcadero.com/Libraries/Florence/en/System.RegularExpressionsCore.TPerlRegEx
 rank: 9
 score: 3.37

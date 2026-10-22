@@ -34,6 +34,8 @@ properties:
     displayName: Version source
   note.provider_type:
     displayName: Provider type
+  note.iuc38:
+    displayName: IUC38
   note.documentation:
     displayName: Documentation
   note.rank:
@@ -94,6 +96,7 @@ views:
     order:
       - name
       - provider_type
+      - iuc38
       - rank
       - score
       - documentation
@@ -114,6 +117,7 @@ views:
     order:
       - name
       - provider_type
+      - iuc38
       - rank
       - score
       - ranking_language_syntax
