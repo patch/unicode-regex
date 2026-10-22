@@ -1,6 +1,17 @@
+---
+event: Internationalization & Unicode Conference
+date: 2014-11-04
+presenter: Nova Patch
+---
 # Unicode Regular Expression Engines
 
-Source: [Unicode Regular Expression Engines](https://speakerdeck.com/patch/unicode-regular-expression-engines), Nova Patch, Internationalization & Unicode Conference (IUC38), 4 November 2014. Version and support claims reflect the 2014 slides.
+## Description
+
+Regular expression engines in most modern programming languages and libraries have been rapidly adding Unicode features in recent years. At Shutterstock, along with most other companies, we use a variety of programming languages, so it's important to know each language's strengths, weaknesses, and differences.
+
+This talk will review Unicode regex features and compare support for these features in many popular engines as of 2014. Features discussed will include escape sequences, character properties, character classes, grapheme clusters, boundary anchors, letter casing, and normalization. Languages with core regex engines including Perl, Python, Ruby, Java, and JavaScript will be compared along with the ICU and PCRE libraries.
+
+### Markdown slides
 
 - [Slide 01: Unicode Regular Expression Engines](Slide%2001.md)
 - [Slide 02: Unicode Regular Expression Engines](Slide%2002.md)
@@ -50,3 +61,7 @@ Source: [Unicode Regular Expression Engines](https://speakerdeck.com/patch/unico
 - [Slide 46: Linebreak matcher](Slide%2046.md)
 - [Slide 47: `\R` linebreak support](Slide%2047.md)
 - [Slide 48: Nova Patch](Slide%2048.md)
+
+## Resources
+
+- [Online slides](https://speakerdeck.com/patch/unicode-regular-expression-engines)
