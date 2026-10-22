@@ -2,6 +2,7 @@
 record_type: provider
 name: Oniguruma
 provider_type: Engine
+inactive: true
 iuc38: true
 documentation: https://www.php.net/manual/en/mbstring.installation.php
 rank: 16

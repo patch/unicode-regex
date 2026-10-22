@@ -2,6 +2,7 @@
 record_type: provider
 name: PCRE
 provider_type: Engine
+inactive: true
 iuc38: true
 documentation: https://docwiki.embarcadero.com/Libraries/Florence/en/System.RegularExpressionsCore.TPerlRegEx
 rank: 9

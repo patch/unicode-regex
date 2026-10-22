@@ -36,6 +36,8 @@ properties:
     displayName: Version source
   note.provider_type:
     displayName: Provider type
+  note.inactive:
+    displayName: Inactive
   note.iuc38:
     displayName: IUC38
   note.documentation:
@@ -131,6 +133,7 @@ views:
     order:
       - name
       - provider_type
+      - inactive
       - iuc38
       - rank
       - score
@@ -140,6 +143,7 @@ views:
       - formula.additional_libraries
       - library_notes
       - library_sources
+      - sources
       - file.name
     sort:
       - property: rank
