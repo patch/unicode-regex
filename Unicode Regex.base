@@ -153,7 +153,7 @@ properties:
   note.value_type:
     displayName: Value type
   note.values:
-    displayName: Published named values and aliases
+    displayName: Published values, aliases and labels
   note.data_sets:
     displayName: Published set-valued data
   note.inventory_scope:

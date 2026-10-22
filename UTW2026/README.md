@@ -31,7 +31,11 @@ Documentation-only pilot: Python re `3.15.1` and Python regex `2026.9.29`, check
 
 Definitions and method: [Data](../Data.md#unicode-feature-research). Results: Unicode reviews, Unicode evaluations, Unicode feature comparison, Unicode host workflows and Unicode properties in [Unicode Regex.base](../Unicode%20Regex.base). Record Unicode versions, syntax, property/value aliases, source freshness, qualifications and official sources. Documentation gaps remain explicit; no provider code was tested.
 
-Next provider by existing rank: java.util.regex. Further providers remain outside this pilot.
+Java expansion: java.util.regex `27.0.1`, Unicode `17.0.0`, checked `2026-10-22`; 36 assessments and 60 property records. Java claims Level 1 plus RL2.1/RL2.2 without naming a UTS revision. Explicit lists and rule-derived Java classification selectors remain distinguishable in the inventory.
+
+Repeatability checked `2026-10-22` against IUC38's technical questions. Category meanings, syntax gaps and contextual script replacement are explicit; the UTS #18 feature structure and existing record fields/views were retained.
+
+Next provider by existing rank: .NET.
 
 ## Future expansion
 
