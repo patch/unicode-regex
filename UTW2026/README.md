@@ -25,6 +25,14 @@ The current collection of 30 providers is more than sufficient as the candidate 
 - Use the language-exposure ranking as one input; it does not measure actual engine usage.
 - Defer further provider research unless the review reveals a material gap.
 
+## Unicode research
+
+Documentation-only pilot: Python re `3.15.1` and Python regex `2026.9.29`, checked `2026-10-22`. UTS #18 revision 25 organizes 33 regex capabilities and 3 host workflows, with 72 assessments and 97 documented Python regex property selectors. Capability support and UTS alignment are recorded separately. Count support through any documented option; include required flags in the syntax and omit version-mode flags where the feature works in both modes.
+
+Definitions and method: [Data](../Data.md#unicode-feature-research). Results: Unicode reviews, Unicode evaluations, Unicode feature comparison, Unicode host workflows and Unicode properties in [Unicode Regex.base](../Unicode%20Regex.base). Record Unicode versions, syntax, property/value aliases, source freshness, qualifications and official sources. Documentation gaps remain explicit; no provider code was tested.
+
+Next provider by existing rank: java.util.regex. Further providers remain outside this pilot.
+
 ## Future expansion
 
 Reconsider omitted providers when they would add a meaningful Unicode comparison or support a broader survey:

@@ -10,11 +10,19 @@ SCHEMAS = {
                   %w[version_source support_status providers notes sources]],
   'Providers' => ['provider', %w[record_type name provider_type documentation rank score
                                ranking_language_syntax ranking_included_api ranking_add_on_library],
-                  %w[iuc38 utw2026 inactive additional_libraries library_notes library_sources sources]],
+                  %w[iuc38 utw2026 inactive additional_libraries library_notes library_sources sources
+                     unicode_review_version unicode_version unicode_host_version release_date unicode_review_date
+                     unicode_scope unicode_claim property_summary property_inventory_date property_inventory_notes unicode_notes unicode_sources]],
   'Support' => ['support', %w[record_type language provider category sources],
                 %w[api implementation targets notes]],
   'Libraries' => ['library', %w[record_type language provider name version release_date sources],
-                  %w[maintenance_date notes]]
+                  %w[maintenance_date notes]],
+  'Features' => ['feature', %w[record_type name sort_order sections role scope notes sources],
+                 %w[requirement required_properties]],
+  'Evaluations' => ['evaluation', %w[record_type provider feature status mechanism syntax notes sources],
+                    %w[undocumented_syntax uts_notes]],
+  'Properties' => ['property', %w[record_type provider name aliases value_type values inventory_scope sources],
+                   %w[domain data_sets notes]]
 }.freeze
 CATEGORIES = {
   'Language syntax' => 'ranking_language_syntax',
@@ -22,8 +30,9 @@ CATEGORIES = {
   'Add-on library' => 'ranking_add_on_library'
 }.freeze
 LISTS = %w[providers sources targets ranking_language_syntax ranking_included_api ranking_add_on_library
-           additional_libraries library_sources].freeze
-NUMBERS = %w[tiobe_rank tiobe_rating rank score].freeze
+           additional_libraries library_sources unicode_sources sections required_properties syntax
+           undocumented_syntax aliases values data_sets].freeze
+NUMBERS = %w[tiobe_rank tiobe_rating rank score sort_order].freeze
 STATUSES = ['None documented', 'Unspecified'].freeze
 
 def check(condition, message)
@@ -83,17 +92,17 @@ SCHEMAS.each do |folder, (type, required, optional)|
                 value.is_a?(Numeric) && value.finite? && value >= 0
               elsif %w[iuc38 utw2026 inactive].include?(key)
                 value == true || value == false
-              elsif %w[release_date maintenance_date].include?(key)
+              elsif %w[release_date maintenance_date unicode_review_date property_inventory_date].include?(key)
                 value.is_a?(Date) || (value.is_a?(String) && value.match?(/\A\d{4}-\d{2}-\d{2}\z/))
               else
                 value.is_a?(String) && !value.strip.empty? && !value.include?("\n")
               end
       check(valid, "#{relative}: invalid type or value for #{key}")
     end
-    %w[rank tiobe_rank].each do |key|
+    %w[rank tiobe_rank sort_order].each do |key|
       check(data[key].is_a?(Integer) && data[key] > 0, "#{relative}: #{key} must be a positive integer") if data.key?(key)
     end
-    (Array(data['sources']) + Array(data['library_sources']) + [data['version_source'], data['documentation']].compact).each do |url|
+    (Array(data['sources']) + Array(data['library_sources']) + Array(data['unicode_sources']) + [data['version_source'], data['documentation']].compact).each do |url|
       uri = URI.parse(url.to_s) rescue nil
       check(uri.is_a?(URI::HTTP) && uri.host && !uri.host.empty?, "#{relative}: invalid source URL #{url.inspect}")
     end
@@ -110,6 +119,7 @@ end
 finish_phase
 
 languages, providers, support, libraries = records.values_at('Languages', 'Providers', 'Support', 'Libraries')
+features, evaluations, properties = records.values_at('Features', 'Evaluations', 'Properties')
 [languages, providers].each do |group|
   names = group.values.map { |record| record['name'] }
   check(names.uniq == names, 'Language and provider names must be unique within their record type')
@@ -131,6 +141,83 @@ support.each do |id, mapping|
   fact = [language, provider, mapping['category'], mapping['implementation'], Array(mapping['targets']).sort]
   check(!facts.include?(fact), "Support/#{id}: duplicate support relationship")
   facts << fact
+end
+finish_phase
+
+# Documentation assessments are independent of language exposure and ranking.
+feature_names = features.values.map { |feature| feature['name'] }
+check(feature_names.uniq == feature_names, 'Features: duplicate display name')
+orders = features.values.map { |feature| feature['sort_order'] }
+check(orders.uniq == orders, 'Features: duplicate sort_order')
+features.each do |id, feature|
+  check(%w[Requirement Detail Guidance Optional].include?(feature['role']), "Features/#{id}: invalid role")
+  check(%w[Regex Host].include?(feature['scope']), "Features/#{id}: invalid scope")
+  check(!feature['sections'].empty?, "Features/#{id}: sections cannot be empty")
+  check(!feature['sources'].empty?, "Features/#{id}: sources cannot be empty")
+end
+review_fields = %w[unicode_review_version unicode_version release_date unicode_review_date
+                   unicode_scope unicode_claim property_summary property_inventory_notes unicode_notes unicode_sources]
+reviewed = providers.select { |_, provider| (provider.keys & review_fields).any? }
+reviewed.each do |id, provider|
+  check((review_fields - provider.keys).empty?, "Providers/#{id}: incomplete Unicode review metadata")
+  check(!Array(provider['unicode_sources']).empty?, "Providers/#{id}: Unicode sources cannot be empty")
+  %w[release_date unicode_review_date property_inventory_date].each do |key|
+    next unless provider.key?(key)
+    value = provider[key]
+    date = value.is_a?(Date) ? value : (Date.iso8601(value) if value)
+    check(date, "Providers/#{id}: invalid #{key}")
+  rescue Date::Error
+    check(false, "Providers/#{id}: invalid #{key}")
+  end
+  release = provider['release_date'].to_s
+  review = provider['unicode_review_date'].to_s
+  check(release <= review, "Providers/#{id}: release is after review date")
+  if provider.key?('property_inventory_date')
+    check(provider['property_inventory_date'].to_s <= review, "Providers/#{id}: inventory date is after review date")
+  end
+end
+evaluation_pairs = []
+evaluations.each do |id, evaluation|
+  provider, feature = evaluation.values_at('provider', 'feature')
+  check(reviewed.key?(provider), "Evaluations/#{id}: provider lacks Unicode review metadata")
+  check(features.key?(feature), "Evaluations/#{id}: unknown feature #{feature}")
+  check(id == "#{provider}-#{feature}", "Evaluations/#{id}: filename does not match its references")
+  pair = [provider, feature]
+  check(!evaluation_pairs.include?(pair), "Evaluations/#{id}: duplicate provider/feature")
+  evaluation_pairs << pair
+  check(%w[Supported Partial Unsupported Undocumented].include?(evaluation['status']), "Evaluations/#{id}: invalid status")
+  check(['Engine', 'Host API', 'None', 'Undocumented'].include?(evaluation['mechanism']), "Evaluations/#{id}: invalid mechanism")
+  scope = features.dig(feature, 'scope')
+  if evaluation['mechanism'] == 'Host API'
+    check(scope == 'Host', "Evaluations/#{id}: host workflow must have Host scope")
+  elsif evaluation['mechanism'] == 'Engine'
+    check(scope == 'Regex', "Evaluations/#{id}: engine capability must have Regex scope")
+  end
+  check(!evaluation['sources'].empty?, "Evaluations/#{id}: sources cannot be empty")
+  if %w[Unsupported Undocumented].include?(evaluation['status'])
+    check(evaluation['syntax'].empty?, "Evaluations/#{id}: unsupported or undocumented syntax must not be presented as accepted")
+  end
+end
+reviewed.each_key do |provider|
+  features.each_key do |feature|
+    check(evaluation_pairs.include?([provider, feature]), "Evaluations: missing #{provider}-#{feature}")
+  end
+end
+property_pairs = []
+properties.each do |id, property|
+  provider, name = property.values_at('provider', 'name')
+  check(reviewed.key?(provider), "Properties/#{id}: provider lacks Unicode review metadata")
+  expected = "#{provider}-#{name.downcase.tr('_', '-')}"
+  check(id == expected, "Properties/#{id}: filename does not match provider and property name")
+  check(!property_pairs.include?([provider, name]), "Properties/#{id}: duplicate provider/property")
+  property_pairs << [provider, name]
+  check(['Binary', 'Enumerated', 'Numeric', 'Set membership'].include?(property['value_type']), "Properties/#{id}: invalid value_type")
+  check(['Code point', 'String'].include?(property.fetch('domain', 'Code point')), "Properties/#{id}: invalid domain")
+  if property.key?('data_sets')
+    check(property['value_type'] == 'Set membership', "Properties/#{id}: data_sets requires a set-valued property")
+    check((property['values'] & property['data_sets']).empty?, "Properties/#{id}: named values and data sets must be separate")
+  end
+  check(!property['sources'].empty?, "Properties/#{id}: sources cannot be empty")
 end
 finish_phase
 
@@ -220,9 +307,26 @@ if File.file?(base_path)
     names = views.map { |view| view['name'] }
     check(names.uniq == names, 'Unicode Regex.base: duplicate view name')
     views.each do |view|
-      Array(view['order']).grep(/^formula\./).each do |column|
+      columns = Array(view['order']) + Array(view['sort']).map { |sort| sort['property'] }
+      columns.grep(/^formula\./).each do |column|
         check(base['formulas'].key?(column.delete_prefix('formula.')), "#{view['name']}: undefined formula #{column}")
       end
+    end
+    {
+      'Unicode reviews' => %w[unicode_version unicode_host_version unicode_scope property_inventory_date property_inventory_notes unicode_claim unicode_notes unicode_sources],
+      'Unicode features' => %w[scope notes sources],
+      'Unicode evaluations' => %w[formula.feature_scope syntax undocumented_syntax notes uts_notes formula.review_version formula.review_scope sources],
+      'Unicode feature comparison' => %w[syntax undocumented_syntax notes uts_notes formula.review_version formula.review_scope sources],
+      'Unicode host workflows' => %w[mechanism syntax notes uts_notes formula.review_version formula.review_scope sources],
+      'Unicode properties' => %w[aliases formula.property_domain values data_sets notes formula.inventory_date formula.inventory_notes formula.review_version sources]
+    }.each do |name, required|
+      view = views.find { |candidate| candidate['name'] == name }
+      check(view, "Unicode Regex.base: missing #{name} view")
+      check((required - Array(view && view['order'])).empty?, "#{name}: missing visible evidence or qualification columns")
+    end
+    {'Unicode feature comparison' => 'Regex', 'Unicode host workflows' => 'Host'}.each do |name, scope|
+      view = views.find { |candidate| candidate['name'] == name }
+      check(Array(view && view.dig('filters', 'and')).include?("formula.feature_scope == \"#{scope}\""), "#{name}: missing #{scope} scope filter")
     end
   else
     check(false, 'Unicode Regex.base: invalid base structure')
@@ -232,3 +336,4 @@ else
 end
 finish_phase
 puts "OK: #{languages.size} languages, #{providers.size} providers, #{support.size} support mappings, #{libraries.size} additional libraries; references, properties, display lists and rankings agree."
+puts "Unicode research: #{reviewed.size} providers, #{features.size} features, #{evaluations.size} evaluations, #{properties.size} property entries; coverage and evidence fields agree."

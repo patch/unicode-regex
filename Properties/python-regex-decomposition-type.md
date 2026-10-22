@@ -1,0 +1,30 @@
+---
+record_type: "property"
+provider: "python-regex"
+name: "Decomposition_Type"
+aliases:
+  - "dt"
+value_type: "Enumerated"
+values:
+  - "Canonical [Can]"
+  - "Circle [Enc]"
+  - "Compat [Com]"
+  - "Final [Fin]"
+  - "Font"
+  - "Fraction [Fra]"
+  - "Initial [Init]"
+  - "Isolated [Iso]"
+  - "Medial [Med]"
+  - "Narrow [Nar]"
+  - "Nobreak [Nb]"
+  - "None"
+  - "Small [Sml]"
+  - "Square [Sqr]"
+  - "Sub"
+  - "Super [Sup]"
+  - "Vertical [Vert]"
+  - "Wide"
+inventory_scope: "Published list"
+sources:
+  - "https://github.com/mrabarnett/mrab-regex/blob/2026.9.29/docs/UnicodeProperties.rst"
+---

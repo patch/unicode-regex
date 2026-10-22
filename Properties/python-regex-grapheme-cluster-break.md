@@ -1,0 +1,30 @@
+---
+record_type: "property"
+provider: "python-regex"
+name: "Grapheme_Cluster_Break"
+aliases:
+  - "GCB"
+value_type: "Enumerated"
+values:
+  - "Control [CN]"
+  - "CR"
+  - "Extend [EX]"
+  - "E_Base [EB]"
+  - "E_Base_GAZ [EBG]"
+  - "E_Modifier [EM]"
+  - "Glue_After_Zwj [GAZ]"
+  - "L"
+  - "LF"
+  - "LV"
+  - "LVT"
+  - "Other [XX]"
+  - "Prepend [PP]"
+  - "Regional_Indicator [RI]"
+  - "SpacingMark [SM]"
+  - "T"
+  - "V"
+  - "ZWJ"
+inventory_scope: "Published list"
+sources:
+  - "https://github.com/mrabarnett/mrab-regex/blob/2026.9.29/docs/UnicodeProperties.rst"
+---

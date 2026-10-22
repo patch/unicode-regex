@@ -9,6 +9,16 @@ formulas:
   providers: if(note.providers, note.providers.map(link(formula.root + "/Providers/" + value + ".md", file(formula.root + "/Providers/" + value + ".md").properties.name)), [])
   additional_libraries: if(note.additional_libraries, note.additional_libraries.map(link(formula.root + "/Libraries/" + value + ".md", file(formula.root + "/Languages/" + file(formula.root + "/Libraries/" + value + ".md").properties.language + ".md").properties.name + " (" + file(formula.root + "/Libraries/" + value + ".md").properties.name + ")")), [])
   library_maintenance: if(note.maintenance_date, note.maintenance_date, note.release_date)
+  feature: if(note.feature, link(formula.root + "/Features/" + note.feature + ".md", file(formula.root + "/Features/" + note.feature + ".md").properties.name))
+  feature_order: if(note.feature, file(formula.root + "/Features/" + note.feature + ".md").properties.sort_order)
+  feature_sections: if(note.feature, file(formula.root + "/Features/" + note.feature + ".md").properties.sections)
+  feature_scope: if(note.feature, file(formula.root + "/Features/" + note.feature + ".md").properties.scope)
+  provider_rank: if(note.provider, file(formula.root + "/Providers/" + note.provider + ".md").properties.rank)
+  review_version: if(note.provider, file(formula.root + "/Providers/" + note.provider + ".md").properties.unicode_review_version)
+  review_scope: if(note.provider, file(formula.root + "/Providers/" + note.provider + ".md").properties.unicode_scope)
+  inventory_notes: if(note.provider, file(formula.root + "/Providers/" + note.provider + ".md").properties.property_inventory_notes)
+  inventory_date: if(note.provider && note.inventory_scope == "Published list", file(formula.root + "/Providers/" + note.provider + ".md").properties.property_inventory_date)
+  property_domain: if(note.domain, note.domain, "Code point")
 properties:
   file.name:
     displayName: ID
@@ -78,6 +88,76 @@ properties:
     displayName: Sources
   note.notes:
     displayName: Notes
+  note.unicode_review_version:
+    displayName: Reviewed release
+  note.unicode_version:
+    displayName: Provider Unicode version
+  note.unicode_host_version:
+    displayName: Host Unicode version
+  note.unicode_review_date:
+    displayName: Review date
+  note.unicode_scope:
+    displayName: Review scope
+  note.unicode_claim:
+    displayName: Published conformance claim
+  note.property_summary:
+    displayName: Property summary
+  note.property_inventory_notes:
+    displayName: Property inventory qualifications
+  note.property_inventory_date:
+    displayName: Published inventory revision date
+  note.unicode_notes:
+    displayName: Unicode review notes
+  note.unicode_sources:
+    displayName: Unicode review sources
+  note.feature:
+    displayName: Feature ID
+  formula.feature:
+    displayName: Feature
+  formula.feature_sections:
+    displayName: UTS sections
+  formula.feature_scope:
+    displayName: Capability scope
+  formula.review_version:
+    displayName: Reviewed release
+  formula.review_scope:
+    displayName: Review scope
+  formula.inventory_notes:
+    displayName: Inventory qualifications
+  formula.inventory_date:
+    displayName: Published inventory revision date
+  formula.property_domain:
+    displayName: Property domain
+  note.sections:
+    displayName: UTS sections
+  note.requirement:
+    displayName: UTS requirement
+  note.role:
+    displayName: Role
+  note.scope:
+    displayName: Capability scope
+  note.required_properties:
+    displayName: UTS property repertoire
+  note.status:
+    displayName: Documented support
+  note.uts_notes:
+    displayName: UTS alignment and evidence gaps
+  note.mechanism:
+    displayName: Supplied by
+  note.syntax:
+    displayName: Documented syntax
+  note.undocumented_syntax:
+    displayName: Undocumented spellings
+  note.aliases:
+    displayName: Property aliases
+  note.value_type:
+    displayName: Value type
+  note.values:
+    displayName: Published named values and aliases
+  note.data_sets:
+    displayName: Published set-valued data
+  note.inventory_scope:
+    displayName: Inventory source
 views:
   - type: table
     name: Languages
@@ -215,4 +295,178 @@ views:
       formula.provider: 190
       note.category: 140
       note.notes: 480
+    rowHeight: tall
+  - type: table
+    name: Unicode reviews
+    filters:
+      and:
+        - record_type == "provider"
+        - file.folder == formula.root + "/Providers"
+        - unicode_review_date
+    order:
+      - name
+      - rank
+      - unicode_review_version
+      - release_date
+      - unicode_version
+      - unicode_host_version
+      - unicode_scope
+      - property_summary
+      - property_inventory_date
+      - property_inventory_notes
+      - unicode_claim
+      - unicode_notes
+      - documentation
+      - unicode_review_date
+      - unicode_sources
+    sort:
+      - property: rank
+        direction: ASC
+    columnSize:
+      note.property_inventory_notes: 480
+      note.unicode_notes: 480
+      note.unicode_scope: 320
+    rowHeight: tall
+  - type: table
+    name: Unicode features
+    filters:
+      and:
+        - record_type == "feature"
+        - file.folder == formula.root + "/Features"
+    order:
+      - name
+      - sections
+      - requirement
+      - role
+      - scope
+      - notes
+      - required_properties
+      - sources
+      - file.name
+    sort:
+      - property: sort_order
+        direction: ASC
+    columnSize:
+      note.notes: 480
+    rowHeight: tall
+  - type: table
+    name: Unicode evaluations
+    filters:
+      and:
+        - record_type == "evaluation"
+        - file.folder == formula.root + "/Evaluations"
+    order:
+      - formula.provider
+      - formula.feature
+      - formula.feature_sections
+      - formula.feature_scope
+      - status
+      - mechanism
+      - syntax
+      - undocumented_syntax
+      - notes
+      - uts_notes
+      - formula.review_version
+      - formula.review_scope
+      - sources
+      - provider
+      - feature
+      - file.name
+    sort:
+      - property: formula.provider_rank
+        direction: ASC
+      - property: formula.feature_order
+        direction: ASC
+    columnSize:
+      formula.feature: 260
+      note.syntax: 320
+      note.notes: 520
+      formula.review_scope: 320
+    rowHeight: tall
+  - type: table
+    name: Unicode feature comparison
+    filters:
+      and:
+        - record_type == "evaluation"
+        - file.folder == formula.root + "/Evaluations"
+        - formula.feature_scope == "Regex"
+    order:
+      - formula.feature
+      - formula.provider
+      - status
+      - mechanism
+      - syntax
+      - undocumented_syntax
+      - notes
+      - uts_notes
+      - formula.review_version
+      - formula.review_scope
+      - sources
+    sort:
+      - property: formula.feature_order
+        direction: ASC
+      - property: formula.provider_rank
+        direction: ASC
+    columnSize:
+      formula.feature: 260
+      note.syntax: 320
+      note.notes: 520
+    rowHeight: tall
+  - type: table
+    name: Unicode host workflows
+    filters:
+      and:
+        - record_type == "evaluation"
+        - file.folder == formula.root + "/Evaluations"
+        - formula.feature_scope == "Host"
+    order:
+      - formula.feature
+      - formula.provider
+      - status
+      - mechanism
+      - syntax
+      - notes
+      - uts_notes
+      - formula.review_version
+      - formula.review_scope
+      - sources
+    sort:
+      - property: formula.feature_order
+        direction: ASC
+      - property: formula.provider_rank
+        direction: ASC
+    columnSize:
+      formula.feature: 260
+      note.syntax: 320
+      note.notes: 520
+    rowHeight: tall
+  - type: table
+    name: Unicode properties
+    filters:
+      and:
+        - record_type == "property"
+        - file.folder == formula.root + "/Properties"
+    order:
+      - formula.provider
+      - name
+      - aliases
+      - formula.property_domain
+      - value_type
+      - values
+      - data_sets
+      - inventory_scope
+      - formula.inventory_date
+      - notes
+      - formula.inventory_notes
+      - formula.review_version
+      - sources
+      - file.name
+    sort:
+      - property: formula.provider_rank
+        direction: ASC
+      - property: name
+        direction: ASC
+    columnSize:
+      note.values: 520
+      formula.inventory_notes: 480
     rowHeight: tall
