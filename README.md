@@ -5,6 +5,7 @@ A knowledgebase on Unicode regular expressions.
 Contents:
 
 - [Structured data and Unicode research](Data.md)
+- [Unicode research plan](Research%20Plan.md)
 - [Programming Languages](Programming%20Languages.md)
 - [Regex Providers](Regex%20Engines.md)
 

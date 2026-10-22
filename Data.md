@@ -45,6 +45,8 @@ Run `ruby scripts/check_data.rb` after editing records or views. It checks requi
 
 ## Unicode feature research
 
+Workflow: [Research Plan](Research%20Plan.md).
+
 Baseline: [UTS #18 revision 25](https://www.unicode.org/reports/tr18/tr18-25.html), dated `2025-01-16`. Documentation-only research checked `2026-10-22`: Python re `3.15.1`, Python regex `2026.9.29` and java.util.regex `27.0.1`. Python and Java language records were refreshed to `3.15.1` and `27.0.1`; the earlier language-survey date above still describes the other records.
 
 - `Features/<id>.md`: `record_type: feature`, `name`, `sort_order`, `sections` list, `role`, `scope`, `notes`, `sources`; optional `requirement` and `required_properties` list. UTS #18 organizes independently assessable capabilities. `scope`: `Regex` or `Host`; host workflows have their own features. `role`: `Requirement`, `Detail`, `Guidance`, or `Optional`. Roles and requirement references locate the topic in UTS #18; they do not turn a capability status into a conformance finding.
