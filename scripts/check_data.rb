@@ -10,7 +10,7 @@ SCHEMAS = {
                   %w[version_source support_status providers notes sources]],
   'Providers' => ['provider', %w[record_type name provider_type documentation rank score
                                ranking_language_syntax ranking_included_api ranking_add_on_library],
-                  %w[iuc38 inactive additional_libraries library_notes library_sources sources]],
+                  %w[iuc38 utw2026 inactive additional_libraries library_notes library_sources sources]],
   'Support' => ['support', %w[record_type language provider category sources],
                 %w[api implementation targets notes]],
   'Libraries' => ['library', %w[record_type language provider name version release_date sources],
@@ -81,7 +81,7 @@ SCHEMAS.each do |folder, (type, required, optional)|
                 value.is_a?(Array) && value.all? { |item| item.is_a?(String) && !item.strip.empty? } && value.uniq == value
               elsif NUMBERS.include?(key)
                 value.is_a?(Numeric) && value.finite? && value >= 0
-              elsif %w[iuc38 inactive].include?(key)
+              elsif %w[iuc38 utw2026 inactive].include?(key)
                 value == true || value == false
               elsif %w[release_date maintenance_date].include?(key)
                 value.is_a?(Date) || (value.is_a?(String) && value.match?(/\A\d{4}-\d{2}-\d{2}\z/))

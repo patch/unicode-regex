@@ -3,7 +3,7 @@
 50 languages, 30 providers, 48 support mappings and 31 additional library relationships. Open [Unicode Regex.base](Unicode%20Regex.base) for Languages, Providers, Provider comparison, Support and Additional libraries views.
 
 - `Languages/<id>.md`: `record_type: language`, `name`, quoted `version`, `tiobe_rank`, `tiobe_rating`; optional `version_source`, `support_status`, `providers` list, `notes` and `sources` list. Named releases without a single version source use `sources`.
-- `Providers/<id>.md`: `record_type: provider`, `name`, `provider_type`, `documentation`, `rank`, `score`, and lists `ranking_language_syntax`, `ranking_included_api`, `ranking_add_on_library`; optional booleans `iuc38` and `inactive`, `additional_libraries` list of Library IDs, `library_notes`, `library_sources` and `sources` lists.
+- `Providers/<id>.md`: `record_type: provider`, `name`, `provider_type`, `documentation`, `rank`, `score`, and lists `ranking_language_syntax`, `ranking_included_api`, `ranking_add_on_library`; optional booleans `iuc38`, `utw2026` and `inactive`, `additional_libraries` list of Library IDs, `library_notes`, `library_sources` and `sources` lists.
 - `Support/<language>-<provider>.md`: `record_type: support`, `language`, `provider`, `category`, `sources`; optional `api`, `implementation`, `targets` list and `notes`. Append a target to the filename if a pair needs separate records.
 - `Libraries/<language>-<provider>.md`: `record_type: library`, `language`, `provider`, `name` (package/library), quoted `version`, ISO `release_date`, `sources`; optional ISO `maintenance_date` and `notes`. Dates may be quoted or saved as native YAML dates by Obsidian. One representative qualifying add-on per language/provider pair.
 
@@ -22,6 +22,8 @@ Provider types: `Engine` identifies an implementation or library; `API family` i
 Provider `inactive: true` marks documented discontinued or unmaintained upstream providers, with evidence in `sources` or `library_sources`. Omitted or `false` means not marked inactive, not a verified active status. This flag does not affect ranking or scoring; exclusion from the additional-library survey alone does not establish inactivity.
 
 Provider `iuc38: true` marks coverage in the [IUC38 provider comparison](IUC38/Slide%2016.md); omitted or `false` means not covered. Slide labels Python, Java, JavaScript and ICU4C correspond to Python re, java.util.regex, ECMAScript RegExp and ICU.
+
+Provider `utw2026: true` marks a provisional research candidate for [UTW2026](UTW2026/README.md); omitted or `false` means outside the current shortlist. Final presentation coverage may be narrower.
 
 Ranking month: `2026-10`. Language versions checked: `2026-10-19`. Support mappings checked: `2026-10-20`.
 

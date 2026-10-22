@@ -2,6 +2,7 @@
 record_type: provider
 name: Rust regex
 provider_type: Engine
+utw2026: true
 documentation: https://docs.rs/regex/latest/regex/
 rank: 14
 score: 1.44

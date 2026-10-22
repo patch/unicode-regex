@@ -2,6 +2,7 @@
 record_type: provider
 name: RE2
 provider_type: Engine
+utw2026: true
 documentation: https://learn.microsoft.com/en-us/sql/relational-databases/regular-expressions/overview?view=sql-server-ver17
 rank: 27
 score: 0.3

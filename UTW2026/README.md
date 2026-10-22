@@ -20,7 +20,8 @@ Decision: 2026-10-22.
 
 The current collection of 30 providers is more than sufficient as the candidate pool for UTW2026. Proceed to detailed Unicode review of a useful, practically relevant subset, with no fixed target count or requirement to cover every provider.
 
-- Prioritize real-world exposure, meaningful Unicode differences and progress since IUC38 (2014).
+- Prioritize real-world exposure and meaningful differences in current Unicode regex behavior.
+- Use prior IUC38 research as background for returning providers; review newly added providers only in their current forms.
 - Use the language-exposure ranking as one input; it does not measure actual engine usage.
 - Defer further provider research unless the review reveals a material gap.
 

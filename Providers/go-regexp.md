@@ -2,6 +2,7 @@
 record_type: provider
 name: Go regexp
 provider_type: Engine
+utw2026: true
 documentation: https://pkg.go.dev/regexp
 rank: 15
 score: 1.39

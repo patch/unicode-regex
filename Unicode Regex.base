@@ -40,6 +40,8 @@ properties:
     displayName: Inactive
   note.iuc38:
     displayName: IUC38
+  note.utw2026:
+    displayName: UTW2026
   note.documentation:
     displayName: Documentation
   note.rank:
@@ -113,6 +115,7 @@ views:
       - name
       - provider_type
       - iuc38
+      - utw2026
       - rank
       - score
       - documentation
@@ -135,6 +138,7 @@ views:
       - provider_type
       - inactive
       - iuc38
+      - utw2026
       - rank
       - score
       - ranking_language_syntax

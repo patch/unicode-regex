@@ -3,6 +3,7 @@ record_type: provider
 name: Python re
 provider_type: Engine
 iuc38: true
+utw2026: true
 documentation: https://docs.python.org/3.15/library/re.html
 rank: 1
 score: 19.23

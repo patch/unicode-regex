@@ -2,6 +2,7 @@
 record_type: provider
 name: Swift Regex
 provider_type: Engine
+utw2026: true
 documentation: https://developer.apple.com/documentation/swift/regex
 rank: 18
 score: 1.03

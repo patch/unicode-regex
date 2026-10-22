@@ -2,6 +2,7 @@
 record_type: provider
 name: PCRE2
 provider_type: Engine
+utw2026: true
 documentation: https://www.php.net/manual/en/pcre.installation.php
 rank: 7
 score: 5.8
