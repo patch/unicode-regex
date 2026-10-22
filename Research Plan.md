@@ -17,6 +17,7 @@ Updated: `2026-10-22`. Reuse and refine this plan for each new language/provider
 - Check Unicode version statements and property inventories independently. Resolve discrepancies through release notes and documentation history where possible. Mark demonstrably stale material as stale; preserve an unresolved discrepancy when the evidence cannot settle it.
 - Gate rolling documentation by release applicability; preview features and historical Framework-only version statements do not establish stable-release support. Resolve stale release-page banners against official release announcements and version histories.
 - A dated inventory supplies positive evidence, not a complete current repertoire. Distinguish explicit lists, referenced APIs/standards and selectors derived from a documented rule. Do not transfer arbitrary UCD properties or aliases into the provider's accepted syntax.
+- Preserve documentation issues noticed during normal research in the relevant provider, evaluation or property notes, with source URLs, observed version/date and any uncertainty. This includes bugs, inconsistencies, outdated information and concrete clarification opportunities. Reuse those records; do not perform a separate issue hunt or maintain a duplicate log.
 
 ## 3. Assess every feature
 
